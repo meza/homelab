@@ -1,24 +1,24 @@
-FROM lscr.io/linuxserver/radarr:latest as radarr
+FROM lscr.io/linuxserver/radarr:latest@sha256:c092cf279e27359775a11dc9ce6cf2cf22975a36105c4f6214fa9df60cf0a1c4 as radarr
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
-FROM lscr.io/linuxserver/sonarr:latest as sonarr
+FROM lscr.io/linuxserver/sonarr:latest@sha256:86122cfebc3bdb59cc9c49e531bc79bf26e8f6aec2df2172c9aadb09f3d589b0 as sonarr
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
-FROM linuxserver/sabnzbd:latest as sabnzbd
+FROM linuxserver/sabnzbd:latest@sha256:c3a1f221f147d499838540f120503be733b395fec632f9289c2acb0586cf0451 as sabnzbd
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
-FROM adguard/adguardhome:latest as adguard
+FROM adguard/adguardhome:latest@sha256:049ef6c019a629b33db2ef957665b257fbd5761970a1517a309807fb128befb1 as adguard
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
-FROM gitea/gitea:latest as gitea
+FROM gitea/gitea:latest@sha256:daeeb33fb2f90d94876597f3b6c73956687c03250d5e5ca71104fc03b9c626b3 as gitea
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
