@@ -22,6 +22,20 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/homelab
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            typ=raw,value=${{ matrix.target }}
+            typ=raw,value=${{ matrix.target }},suffix=-latest
+            type=sha,prefix=${{ matrix.target }}-
+          labels: |
+            com.centurylinklabs.watchtower.enable="true"
       - name: Build and push for normal versions
         uses: docker/build-push-action@v3
         with:
@@ -29,5 +43,5 @@ jobs:
           target: ${{ matrix.target }}
           push: true
           no-cache: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/homelab:${{ matrix.target }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
