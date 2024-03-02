@@ -1,7 +1,15 @@
 name: Build and Push
 
+permissions:
+  issues: write
+  checks: write
+  contents: write
+  pull-requests: write
+
 on:
   workflow_dispatch:
+  pull_request:
+    types: [ opened, synchronize, reopened ]
   push:
     branches:
       - main
@@ -41,7 +49,7 @@ jobs:
         with:
           context: .
           target: ${{ matrix.target }}
-          push: true
+          push: github.ref == 'refs/heads/main'
           no-cache: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
