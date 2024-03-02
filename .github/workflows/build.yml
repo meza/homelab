@@ -2,9 +2,9 @@ name: Build and Push
 
 on:
   workflow_dispatch:
-#  push:
-#    branches:
-#      - main
+  push:
+    branches:
+      - main
 
 env:
   DOCKER_BUILDKIT: 1
