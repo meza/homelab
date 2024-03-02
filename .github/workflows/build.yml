@@ -49,7 +49,7 @@ jobs:
         with:
           context: .
           target: ${{ matrix.target }}
-          push: github.ref == 'refs/heads/main'
+          push: ${{ github.ref == 'refs/heads/main' }}
           no-cache: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
