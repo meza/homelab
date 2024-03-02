@@ -5,6 +5,6 @@
   ],
   "prConcurrentLimit": 1,
   "enabledManagers": [
-    "docker"
+    "dockerfile"
   ]
 }

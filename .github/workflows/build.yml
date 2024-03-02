@@ -6,8 +6,14 @@ on:
 #    branches:
 #      - main
 
+env:
+  DOCKER_BUILDKIT: 1
+
 jobs:
   build:
+    strategy:
+        matrix:
+            target: [ "radarr", "sonarr", "sabnzbd", "gitea", "adguard" ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -20,9 +26,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
+          target: ${{ matrix.target }}
           push: true
           no-cache: true
-          build-args: |
-            MINECRAFT_VERSION=${{ matrix.id }}
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:-latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/homelab:${{ matrix.target }}
