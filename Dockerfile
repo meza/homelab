@@ -1,4 +1,4 @@
-FROM lscr.io/linuxserver/radarr:latest@sha256:122cb0e9104f5b29b48a2578e0ad02ad82c8b8568b8bc5154eb6e360f4e72799 as radarr
+FROM lscr.io/linuxserver/radarr:latest@sha256:1afb332d12843163750a40a4e03b0a91b03db8831f9455cbb6fc06ebddbfa16e as radarr
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
