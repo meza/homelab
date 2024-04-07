@@ -22,3 +22,8 @@ FROM gitea/gitea:latest@sha256:8e43a60b211bf01f7819ff6be8bf4f48081086b02098a5d81
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
+
+FROM registry:latest as registry
+COPY certs /usr/share/ca-certificates
+LABEL com.centurylinklabs.watchtower.enable="true"
+RUN update-ca-certificates
