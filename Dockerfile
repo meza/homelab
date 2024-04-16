@@ -18,7 +18,7 @@ COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
-FROM gitea/gitea:latest@sha256:8e43a60b211bf01f7819ff6be8bf4f48081086b02098a5d8152d12a6339d1eb3 as gitea
+FROM gitea/gitea:latest@sha256:0056032dc8c6ab70583e4a105b9ee0dc72dce4f4fbc8022c98bcec46b0273883 as gitea
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
