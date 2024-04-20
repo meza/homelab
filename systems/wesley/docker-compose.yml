@@ -1,0 +1,94 @@
+version: "3.8"
+
+# services: 3000 and up
+# databases: 3300 and up
+
+networks:
+  gitea:
+    driver: bridge
+
+services:
+  watchtower:
+    container_name: watchtower
+    entrypoint:
+      - /watchtower
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/London
+      WATCHTOWER_POLL_INTERVAL: 60
+      WATCHTOWER_CLEANUP: true
+      WATCHTOWER_REMOVE_VOLUMES: true
+      WATCHTOWER_LABEL_ENABLE: true
+      WATCHTOWER_INCLUDE_RESTARTING: true
+      WATCHTOWER_TIMEOUT: 30m
+      WATCHTOWER_WARN_ON_HEAD_FAILURE: never
+      WATCHTOWER_ROLLING_RESTART: true
+      PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    expose:
+      - 8080/tcp
+    image: containrrr/watchtower:latest
+    labels:
+      com.centurylinklabs.watchtower: true
+      com.centurylinklabs.watchtower.enable: true
+    restart: always
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    working_dir: /
+
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: mariadb
+    env_file:
+      - .env
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/London
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      REMOTE_SQL: http://URL1/your.sql,https://URL2/your.sql #optional
+    volumes:
+      - /mnt/storage/docker-services/mariadb/config:/config
+    labels:
+      com.centurylinklabs.watchtower: true
+      com.centurylinklabs.watchtower.enable: true
+    expose:
+      - 3306
+    restart: unless-stopped
+    networks:
+      - gitea
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 3300:8080
+    networks:
+        - gitea
+    depends_on:
+      - mariadb
+#
+#  gitea:
+#    image: vsbmeza/homelab:gitea-latest
+#    container_name: gitea
+#    depends_on:
+#      - mariadb
+#    labels:
+#      com.centurylinklabs.watchtower: true
+#      com.centurylinklabs.watchtower.enable: true
+#    environment:
+#      USER_UID: 1000
+#      USER_GID: 1000
+#      GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
+#    restart: unless-stopped
+#    networks:
+#      - gitea
+#    volumes:
+#      - /mnt/storage/docker-services/gitea/data:/data
+#      - /etc/timezone:/etc/timezone:ro
+#      - /etc/localtime:/etc/localtime:ro
+#    ports:
+#      - "3000:3000"
+#      - "222:22"
