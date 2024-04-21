@@ -2,6 +2,8 @@
 # databases: 3300 and up
 
 networks:
+  caddy:
+      driver: bridge
   gitea:
     driver: bridge
 
@@ -35,6 +37,21 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:rw
     working_dir: /
 
+  caddy:
+    image: lucaslorentz/caddy-docker-proxy:ci-alpine
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - CADDY_INGRESS_NETWORKS=caddy
+    networks:
+      - caddy
+      - gitea
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/storage/docker-services/caddy:/data
+    restart: unless-stopped
+
   mariadb:
     image: lscr.io/linuxserver/mariadb:latest
     container_name: mariadb
@@ -63,7 +80,7 @@ services:
     ports:
       - 3300:8080
     networks:
-        - gitea
+      - gitea
     depends_on:
       - mariadb
 
@@ -75,11 +92,16 @@ services:
     labels:
       com.centurylinklabs.watchtower: true
       com.centurylinklabs.watchtower.enable: true
+      caddy: wesley.meza.gg
+      caddy.handle_path: /gitea/*
+      caddy.handle_path.0_reverse_proxy: {{upstreams 3000}}
     environment:
       USER_UID: 1000
       USER_GID: 1000
       GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
       GIT_TERMINAL_PROMPT: 1
+      DOMAIN: wesley.meza.gg
+      ROOT_URL: https://wesley.meza.gg/gitea
     restart: unless-stopped
     networks:
       - gitea
@@ -87,6 +109,7 @@ services:
       - /mnt/storage/docker-services/gitea/data:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+    expose:
+      - 3000
     ports:
-      - "3000:3000"
       - "222:22"
