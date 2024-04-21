@@ -1,5 +1,3 @@
-version: "3.8"
-
 # services: 3000 and up
 # databases: 3300 and up
 
@@ -47,7 +45,6 @@ services:
       PGID: 1000
       TZ: Europe/London
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      REMOTE_SQL: http://URL1/your.sql,https://URL2/your.sql #optional
     volumes:
       - /mnt/storage/docker-services/mariadb/config:/config
     labels:
@@ -69,26 +66,26 @@ services:
         - gitea
     depends_on:
       - mariadb
-#
-#  gitea:
-#    image: vsbmeza/homelab:gitea-latest
-#    container_name: gitea
-#    depends_on:
-#      - mariadb
-#    labels:
-#      com.centurylinklabs.watchtower: true
-#      com.centurylinklabs.watchtower.enable: true
-#    environment:
-#      USER_UID: 1000
-#      USER_GID: 1000
-#      GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
-#    restart: unless-stopped
-#    networks:
-#      - gitea
-#    volumes:
-#      - /mnt/storage/docker-services/gitea/data:/data
-#      - /etc/timezone:/etc/timezone:ro
-#      - /etc/localtime:/etc/localtime:ro
-#    ports:
-#      - "3000:3000"
-#      - "222:22"
+
+  gitea:
+    image: vsbmeza/homelab:gitea-latest
+    container_name: gitea
+    depends_on:
+      - mariadb
+    labels:
+      com.centurylinklabs.watchtower: true
+      com.centurylinklabs.watchtower.enable: true
+    environment:
+      USER_UID: 1000
+      USER_GID: 1000
+      GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
+    restart: unless-stopped
+    networks:
+      - gitea
+    volumes:
+      - /mnt/storage/docker-services/gitea/data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "222:22"
