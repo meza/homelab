@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM lscr.io/linuxserver/radarr:latest@sha256:de7e51182113b430d9b6cb93ebc3389e1c73f11e7eabf47d0af5de106cdc296a as radarr
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
@@ -28,7 +29,6 @@ COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
-# syntax=docker/dockerfile:1
 FROM python:latest as gitea-mirror
 
 ENV VIRTUAL_ENV=/opt/venv
