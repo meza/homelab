@@ -21,7 +21,7 @@ jobs:
   build:
     strategy:
         matrix:
-            target: [ "radarr", "sonarr", "sabnzbd", "gitea", "adguard", "registry" ]
+            target: [ "radarr", "sonarr", "sabnzbd", "gitea", "adguard", "registry", "gitea-mirror" ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

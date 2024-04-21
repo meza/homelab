@@ -27,3 +27,21 @@ FROM registry:latest@sha256:fb9c9aef62af3955f6014613456551c92e88a67dcf1fc51f5f91
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
+
+FROM python:latest as gitea-mirror
+
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+RUN python3 -m venv $VIRTUAL_ENV \
+    && pip3 install "PyGithub" \
+    && mkdir -p /config \
+    && mkdir -p /app
+
+VOLUME /config
+
+COPY files/gitea-mirror/entrypoint.sh /entrypoint.sh
+ADD https://github.com/varunsridharan/github-gitea-mirror.git#main /app
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
