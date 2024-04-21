@@ -28,6 +28,7 @@ COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
+# syntax=docker/dockerfile:1
 FROM python:latest as gitea-mirror
 
 ENV VIRTUAL_ENV=/opt/venv
