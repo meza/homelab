@@ -79,6 +79,7 @@ services:
       USER_UID: 1000
       USER_GID: 1000
       GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
+      GIT_TERMINAL_PROMPT: 1
     restart: unless-stopped
     networks:
       - gitea
