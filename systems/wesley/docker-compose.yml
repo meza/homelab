@@ -2,8 +2,6 @@
 # databases: 3300 and up
 
 networks:
-  caddy:
-      driver: bridge
   gitea:
     driver: bridge
 
@@ -37,20 +35,31 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:rw
     working_dir: /
 
-  caddy:
-    image: lucaslorentz/caddy-docker-proxy:ci-alpine
-    ports:
-      - 80:80
-      - 443:443
-    environment:
-      - CADDY_INGRESS_NETWORKS=caddy
-    networks:
-      - caddy
-      - gitea
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/storage/docker-services/caddy:/data
+  nginx:
+    image: 'docker.io/jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
+    container_name: nginx
+    depends_on:
+      - mariadb
+    environment:
+      PUID: 1000
+      PGID: 1000
+      DB_MYSQL_HOST: "mariadb"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "${MYSQL_NGINX_USER}"
+      DB_MYSQL_PASSWORD: "${MYSQL_NGINX_PASSWORD}"
+      DB_MYSQL_NAME: "${MYSQL_NGINX_DB}"
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - /mnt/storage/docker-services/nginx/data:/data
+      - /mnt/storage/docker-services/nginx/letsencrypt:/etc/letsencrypt
+      - /mnt/storage/docker-services/nginx/_hsts_map.conf:/app/templates/_hsts_map.conf
+    networks:
+      - default
+      - gitea
 
   mariadb:
     image: lscr.io/linuxserver/mariadb:latest
@@ -74,11 +83,13 @@ services:
       - gitea
 
   adminer:
-    image: adminer
+    image: adminer:latest
     container_name: adminer
     restart: always
-    ports:
-      - 3300:8080
+    environment:
+      ADMINER_DESIGN: dracula
+    expose:
+      - 8080
     networks:
       - gitea
     depends_on:
@@ -92,9 +103,6 @@ services:
     labels:
       com.centurylinklabs.watchtower: true
       com.centurylinklabs.watchtower.enable: true
-      caddy: wesley.meza.gg
-      caddy.handle_path: /gitea/*
-      caddy.handle_path.0_reverse_proxy: {{upstreams 3000}}
     environment:
       USER_UID: 1000
       USER_GID: 1000
