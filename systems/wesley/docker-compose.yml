@@ -130,8 +130,8 @@ services:
     image: amir20/dozzle:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - 3001:8080
+    expose:
+      - 8080
     healthcheck:
       test: [ "CMD", "/dozzle", "healthcheck" ]
       interval: 3s
