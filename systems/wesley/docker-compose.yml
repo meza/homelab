@@ -138,3 +138,16 @@ services:
       timeout: 30s
       retries: 5
       start_period: 30s
+
+  adguard:
+    image: adguard/adguardhome
+    container_name: adguard
+    network_mode: "host"
+    restart: unless-stopped
+    volumes:
+      - "/mnt/storage/docker-services/adguard/work:/opt/adguardhome/work"
+      - "/mnt/storage/docker-services/adguard/conf:/opt/adguardhome/conf"
+    expose:
+      - 443/tcp
+    ports:
+      - "53:53/tcp"
