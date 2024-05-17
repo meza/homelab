@@ -150,6 +150,8 @@ services:
       - "/mnt/storage/docker-services/adguard/work:/opt/adguardhome/work"
       - "/mnt/storage/docker-services/adguard/conf:/opt/adguardhome/conf"
     expose:
-      - 443/tcp
+      - 3001
     ports:
-      - "53:53/tcp"
+      - 53:53/tcp
+      - 53:53/udp
+      - 853:853/tcp
