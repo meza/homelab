@@ -141,6 +141,9 @@ services:
 
   adguard:
     image: adguard/adguardhome
+    labels:
+      com.centurylinklabs.watchtower: true
+      com.centurylinklabs.watchtower.enable: true
     container_name: adguard
     network_mode: "host"
     restart: unless-stopped
