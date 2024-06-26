@@ -160,8 +160,21 @@ services:
     image: eclipse-mosquitto:latest
     container_name: mqtt
     restart: always
+    expose:
+      - 1883
+      - 9001
     volumes:
       - /mnt/storage/docker-services/mqtt:/mosquitto
+    labels:
+      com.centurylinklabs.watchtower: true
+      com.centurylinklabs.watchtower.enable: true
+
+  mqtt-admin:
+    image: dersimn/mqtt-admin:latest
+    container_name: mqtt-admin
+    environment:
+      MQTT_HOST: mqtt:9001
+    restart: always
     labels:
       com.centurylinklabs.watchtower: true
       com.centurylinklabs.watchtower.enable: true
