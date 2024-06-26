@@ -155,3 +155,13 @@ services:
       - 53:53/tcp
       - 53:53/udp
       - 853:853/tcp
+
+  mqtt:
+    image: eclipse-mosquitto:latest
+    container_name: mqtt
+    restart: always
+    volumes:
+      - /mnt/storage/docker-services/mqtt:/mosquitto
+    labels:
+      com.centurylinklabs.watchtower: true
+      com.centurylinklabs.watchtower.enable: true
