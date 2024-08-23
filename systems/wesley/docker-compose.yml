@@ -39,6 +39,7 @@ services:
     image: 'docker.io/jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     container_name: nginx
+    command: bash -c "sed -i '/{% include \"_hsts_map.conf\" %}/d' /app/templates/_location.conf; while true; do sleep 86400; done"
     depends_on:
       - mariadb
     environment:
@@ -76,6 +77,8 @@ services:
     labels:
       com.centurylinklabs.watchtower: true
       com.centurylinklabs.watchtower.enable: true
+    ports:
+      - "3306:3306"
     expose:
       - 3306
     restart: unless-stopped
@@ -156,25 +159,15 @@ services:
       - 53:53/udp
       - 853:853/tcp
 
-  mqtt:
-    image: eclipse-mosquitto:latest
-    container_name: mqtt
-    restart: always
-    expose:
-      - 1883
-      - 9001
+  sqs:
+    image: roribio16/alpine-sqs:latest
+    container_name: sqs
+#    ports:
+#      - "9324:9324"
+#      - "9325:9325"
+    labels:
+      com.centurylinklabs.watchtower: true
+      com.centurylinklabs.watchtower.enable: true
     volumes:
-      - /mnt/storage/docker-services/mqtt:/mosquitto
-    labels:
-      com.centurylinklabs.watchtower: true
-      com.centurylinklabs.watchtower.enable: true
-
-  mqtt-admin:
-    image: dersimn/mqtt-admin:latest
-    container_name: mqtt-admin
-    environment:
-      MQTT_HOST: mqtt:9001
-    restart: always
-    labels:
-      com.centurylinklabs.watchtower: true
-      com.centurylinklabs.watchtower.enable: true
+      - /mnt/storage/docker-services/sqs/sqs-insight.conf:/opt/config/sqs-insight.conf
+      - /mnt/storage/docker-services/sqs/elasticmq.conf:/opt/config/elasticmq.conf
