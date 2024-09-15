@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1@sha256:865e5dd094beca432e8c0a1d5e1c465db5f998dca4e439981029b3b81fb39ed5
-FROM lscr.io/linuxserver/radarr:latest@sha256:5ab12592e768d04d94bc04877bee194f372ea3946abc6de689311f4d8559ee2f as radarr
+FROM lscr.io/linuxserver/radarr:latest@sha256:3bee8fb8eb4bb93b77eb4e0c5d755f25649223965af59f5f0363ddda03c6d10c as radarr
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
