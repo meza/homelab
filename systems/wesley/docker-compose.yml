@@ -62,6 +62,22 @@ services:
       - default
       - gitea
 
+  vaultwarden:
+    image: vaultwarden/server:latest
+    restart: unless-stopped
+    container_name: vaultwarden
+    env_file:
+      - .env
+    environment:
+      ENABLE_WEBSOCKET: true
+      PUSH_ENABLED: false
+      PUSH_RELAY_URI: https://api.bitwarden.eu
+      DOMAIN: https://vault.meza.gg
+      SENDS_ALLOWED: false
+      EXPERIMENTAL_CLIENT_FEATURE_FLAGS: fido2-vault-credentials,autofill-v2,autofill-overlay
+    volumes:
+      - /mnt/storage/docker-service/vaultwarden/:/data/
+
   mariadb:
     image: lscr.io/linuxserver/mariadb:latest
     container_name: mariadb
