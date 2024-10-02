@@ -29,7 +29,7 @@ COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
-FROM python:latest@sha256:14f073695854184b65a82808ea2baa352d49c1a86442f06a90d9c236861c7a8f as gitea-mirror
+FROM python:latest@sha256:785fef11f44b7393c03d77032fd72e56af8b05442b051a151229145e5fbbcb29 as gitea-mirror
 
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
