@@ -187,20 +187,6 @@ services:
     volumes:
       - /mnt/storage/docker-services/sqs/sqs-insight.conf:/opt/config/sqs-insight.conf
       - /mnt/storage/docker-services/sqs/elasticmq.conf:/opt/config/elasticmq.conf
-  
-  runner:
-    image: vsbmeza/github-runner-linux:latest
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    labels:
-      com.centurylinklabs.watchtower: true
-      com.centurylinklabs.watchtower.enable: true
-    env_file:
-      - .env
-    deploy:
-      mode: replicated
-      replicas: 6
 
   alice:
     container_name: alice
