@@ -29,7 +29,7 @@ services:
     labels:
       com.centurylinklabs.watchtower: true
       com.centurylinklabs.watchtower.enable: true
-    restart: always
+    restart: unless-stopped
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /var/run/docker.sock:/var/run/docker.sock:rw
@@ -200,4 +200,14 @@ services:
       - .env
     deploy:
       mode: replicated
-      replicas: 4
+      replicas: 6
+
+  alice:
+    container_name: alice
+    image: vsbmeza/alice
+    restart: unless-stopped
+    env_file:
+      - .env
+    labels:
+      com.centurylinklabs.watchtower: true
+      com.centurylinklabs.watchtower.enable: true
