@@ -14,7 +14,7 @@ COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
-FROM adguard/adguardhome:latest@sha256:d9c512051141e6a617d773f16cdf6782c178464c6e766acf9fe63482a171f95c as adguard
+FROM adguard/adguardhome:latest@sha256:ec59d9d8d083b74620f827879bee7ad88621f96bc0c4347c84c176ffa349484c as adguard
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
