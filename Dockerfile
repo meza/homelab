@@ -9,7 +9,7 @@ COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
-FROM linuxserver/sabnzbd:latest@sha256:1bd04442a6cb35fc8f4a18c474ba93d6600026dcbd364d0577e63cc6cdebfd87 as sabnzbd
+FROM linuxserver/sabnzbd:latest@sha256:1d31c01bb765cfbbe916b418b336223b07541e50065e6b4284f5ffb8ea452d12 as sabnzbd
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
