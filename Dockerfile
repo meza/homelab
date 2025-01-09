@@ -24,7 +24,7 @@ COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
-FROM registry:latest@sha256:26f7266535a3a1dae81e137ba4935c59d96e7bb4b700f64e4af8959ca5ab0419 as registry
+FROM registry:latest@sha256:319881be2ee9e345d5837d15842a04268de6a139e23be42654fc7664fc6eaf52 as registry
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
