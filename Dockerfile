@@ -4,7 +4,7 @@ COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
-FROM lscr.io/linuxserver/sonarr:latest@sha256:47ce6f3b2afb17c12b393da2fefb11718f15cd1308baeba1cb61cbbbb9c5aedc as sonarr
+FROM lscr.io/linuxserver/sonarr:latest@sha256:20b81f5054d31f0151be3c5e282a85361cc24b7ffaab67a997bb4379caa8485b as sonarr
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
