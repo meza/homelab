@@ -32,7 +32,7 @@ services:
       - traefik.http.middlewares.mongo.headers.SSLHost=meza.gg
       - traefik.http.middlewares.mongo.headers.STSIncludeSubdomains=true
       - traefik.http.middlewares.mongo.headers.STSPreload=true
-      - traefik.http.routers.mongo.middlewares=mongo@docker
+      - traefik.http.routers.mongo.middlewares=mongodb@docker
       - traefik.tcp.services.mongo.loadbalancer.server.port=27017
       - com.centurylinklabs.watchtower=true
       - com.centurylinklabs.watchtower.enable=true
