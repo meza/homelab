@@ -55,10 +55,12 @@ services:
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.mongo.rule=Host(`spock-mongodb.meza.gg`)
-      - traefik.http.routers.mongo.tls=true
-      - traefik.http.routers.mongo.entrypoints=web,websecure
-      - traefik.http.routers.mongo.tls.certresolver=myresolver
+      - traefik.http.routers.mongo-express.rule=Host(`spock-mongodb.meza.gg`)
+      - traefik.http.routers.mongo-express.tls=true
+      - traefik.http.routers.frontend.service=mongo-express
+      - traefik.http.routers.mongo-express.entrypoints=web,websecure
+      - traefik.http.routers.mongo-express.tls.certresolver=myresolver
+      - traefik.http.services.mongo-express.loadbalancer.server.port=8081
       - traefik.http.middlewares.mongo.headers.SSLRedirect=true
       - traefik.http.middlewares.mongo.headers.STSSeconds=315360000
       - traefik.http.middlewares.mongo.headers.browserXSSFilter=true
@@ -76,7 +78,7 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
       ME_CONFIG_MONGODB_PORT: 27017
-      ME_CONFIG_MONGODB_SERVER: 'mongodb'
+      ME_CONFIG_MONGODB_SERVER: 'spock-mongo.meza.gg'
       ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USERNAME}
       ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD}
     ports:
@@ -84,5 +86,4 @@ services:
     networks:
       - traefik-proxy
       - mongodb_network
-    depends_on:
-      - mongodb
+
