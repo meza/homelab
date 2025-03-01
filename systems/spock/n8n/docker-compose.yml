@@ -1,7 +1,4 @@
 networks:
-  n8n:
-    driver: bridge
-    name: n8n
   traefik-proxy:
     external: true
     name: traefik
@@ -43,5 +40,4 @@ services:
     volumes:
       - n8n_data:/home/node/.n8n
     networks:
-      - n8n
       - traefik-proxy
