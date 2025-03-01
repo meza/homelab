@@ -6,9 +6,6 @@ volumes:
     name: mongo-log
 
 networks:
-  mongodb_network:
-    driver: bridge
-    name: mongo-network
   traefik-proxy:
     external: true
     name: traefik
@@ -26,6 +23,7 @@ services:
       - traefik.http.routers.mongo.tls=true
       - traefik.http.routers.mongo.entrypoints=mongodb
       - traefik.http.routers.mongo.tls.certresolver=myresolver
+      - traefik.tcp.routers.mongo.service=mongodb
       - traefik.http.middlewares.mongo.headers.SSLRedirect=true
       - traefik.http.middlewares.mongo.headers.STSSeconds=315360000
       - traefik.http.middlewares.mongo.headers.browserXSSFilter=true
@@ -35,6 +33,7 @@ services:
       - traefik.http.middlewares.mongo.headers.STSIncludeSubdomains=true
       - traefik.http.middlewares.mongo.headers.STSPreload=true
       - traefik.http.routers.mongo.middlewares=mongo@docker
+      - traefik.tcp.services.mongo.loadbalancer.server.port=27017
       - com.centurylinklabs.watchtower=true
       - com.centurylinklabs.watchtower.enable=true
     environment:
@@ -44,7 +43,6 @@ services:
       - "27017:27017"
     networks:
       - traefik-proxy
-      - mongodb_network
     volumes:
       - mongo_data:/data/db/
       - mongodb-log:/var/log/mongodb/
@@ -85,5 +83,4 @@ services:
       - 8081:8081
     networks:
       - traefik-proxy
-      - mongodb_network
 
