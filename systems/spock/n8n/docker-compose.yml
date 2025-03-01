@@ -1,6 +1,7 @@
 networks:
   n8n:
     driver: bridge
+    name: n8n
   traefik-proxy:
     external: true
     name: traefik
