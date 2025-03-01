@@ -46,7 +46,7 @@ services:
       - traefik-proxy
       - mongodb_network
     volumes:
-      - mongodb-data:/data/db/
+      - mongo_data:/data/db/
       - mongodb-log:/var/log/mongodb/
 
   mongo-express:

@@ -4,6 +4,7 @@ volumes:
 
 networks:
   traefik:
+    driver: bridge
 
 services:
   traefik:
