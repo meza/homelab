@@ -21,7 +21,7 @@ services:
       - "--api=true"
       - "--api.insecure=true"
       - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
+#      - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.mongodb.address=:27017"
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
