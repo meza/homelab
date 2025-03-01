@@ -55,7 +55,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.mongo-express.rule=Host(`spock-mongodb.meza.gg`)
       - traefik.http.routers.mongo-express.tls=true
-      - traefik.http.routers.frontend.service=mongo-express
+      - traefik.http.routers.mongo-express.service=mongo-express
       - traefik.http.routers.mongo-express.entrypoints=web,websecure
       - traefik.http.routers.mongo-express.tls.certresolver=myresolver
       - traefik.http.services.mongo-express.loadbalancer.server.port=8081
