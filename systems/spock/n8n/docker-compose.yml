@@ -15,7 +15,7 @@ services:
     image: docker.n8n.io/n8nio/n8n
     restart: always
     ports:
-      - "127.0.0.1:5678:5678"
+      - "5678:5678"
     labels:
       - traefik.enable=true
       - traefik.http.routers.n8n.rule=Host(`n8n.meza.gg`)
@@ -31,6 +31,8 @@ services:
       - traefik.http.middlewares.n8n.headers.STSIncludeSubdomains=true
       - traefik.http.middlewares.n8n.headers.STSPreload=true
       - traefik.http.routers.n8n.middlewares=n8n@docker
+      - com.centurylinklabs.watchtower=true
+      - com.centurylinklabs.watchtower.enable=true
     environment:
       - N8N_HOST=n8n.meza.gg
       - N8N_PORT=5678
