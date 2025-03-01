@@ -19,21 +19,10 @@ services:
       - .env
     labels:
       - traefik.enable=true
-      - traefik.http.routers.mongo.rule=Host(`spock-mongodb.meza.gg`)
+      - traefik.http.routers.mongo.rule=Host(`spock-mongo.meza.gg`)
       - traefik.http.routers.mongo.tls=true
       - traefik.http.routers.mongo.entrypoints=mongodb
       - traefik.http.routers.mongo.tls.certresolver=myresolver
-      - traefik.tcp.routers.mongo.service=mongodb
-      - traefik.http.middlewares.mongo.headers.SSLRedirect=true
-      - traefik.http.middlewares.mongo.headers.STSSeconds=315360000
-      - traefik.http.middlewares.mongo.headers.browserXSSFilter=true
-      - traefik.http.middlewares.mongo.headers.contentTypeNosniff=true
-      - traefik.http.middlewares.mongo.headers.forceSTSHeader=true
-      - traefik.http.middlewares.mongo.headers.SSLHost=meza.gg
-      - traefik.http.middlewares.mongo.headers.STSIncludeSubdomains=true
-      - traefik.http.middlewares.mongo.headers.STSPreload=true
-      - traefik.http.routers.mongo.middlewares=mongodb@docker
-      - traefik.tcp.services.mongo.loadbalancer.server.port=27017
       - com.centurylinklabs.watchtower=true
       - com.centurylinklabs.watchtower.enable=true
     environment:
@@ -53,21 +42,10 @@ services:
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.mongo-express.rule=Host(`spock-mongodb.meza.gg`)
+      - traefik.http.routers.mongo-express.rule=Host(`spock-mongo.meza.gg`)
       - traefik.http.routers.mongo-express.tls=true
-      - traefik.http.routers.mongo-express.service=mongo-express
       - traefik.http.routers.mongo-express.entrypoints=web,websecure
       - traefik.http.routers.mongo-express.tls.certresolver=myresolver
-      - traefik.http.services.mongo-express.loadbalancer.server.port=8081
-      - traefik.http.middlewares.mongo-express.headers.SSLRedirect=true
-      - traefik.http.middlewares.mongo-express.headers.STSSeconds=315360000
-      - traefik.http.middlewares.mongo-express.headers.browserXSSFilter=true
-      - traefik.http.middlewares.mongo-express.headers.contentTypeNosniff=true
-      - traefik.http.middlewares.mongo-express.headers.forceSTSHeader=true
-      - traefik.http.middlewares.mongo-express.headers.SSLHost=meza.gg
-      - traefik.http.middlewares.mongo-express.headers.STSIncludeSubdomains=true
-      - traefik.http.middlewares.mongo-express.headers.STSPreload=true
-      - traefik.http.routers.mongo-express.middlewares=mongo-express@docker
       - com.centurylinklabs.watchtower=true
       - com.centurylinklabs.watchtower.enable=true
     env_file:
