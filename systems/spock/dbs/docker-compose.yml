@@ -97,3 +97,5 @@ services:
       ENABLE_API_BASED_MODULES: 'true'
       ENABLE_MODULES: 'text2vec-ollama'
       TEXT2VEC_OLLAMA_ENDPOINT: "http://ollama.meza.gg:11434"
+      CLUSTER_HOSTNAME: "standalone"
+
