@@ -4,6 +4,9 @@ volumes:
   mongodb-log:
     driver: local
     name: mongo-log
+  weaviate_data:
+    external: true
+    name: weaviate_data
 
 networks:
   traefik-proxy:
@@ -62,3 +65,35 @@ services:
     networks:
       - traefik-proxy
 
+
+  weaviate:
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.weaviate.rule=Host(`weaviate.meza.gg`)
+      - traefik.http.routers.weaviate.tls=true
+      - traefik.http.routers.weaviate.entrypoints=weaviate
+      - traefik.http.routers.weaviate.tls.certresolver=myresolver
+      - com.centurylinklabs.watchtower=true
+      - com.centurylinklabs.watchtower.enable=true
+    command:
+      - --host
+      - 0.0.0.0
+      - --port
+      - '8080'
+      - --scheme
+      - http
+    image: cr.weaviate.io/semitechnologies/weaviate:1.29.0
+    ports:
+      - 8080:8080
+    networks:
+      - traefik-proxy
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+    restart: on-failure:0
+    environment:
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      ENABLE_API_BASED_MODULES: 'true'
+      ENABLE_MODULES: 'text2vec-ollama'
+      TEXT2VEC_OLLAMA_ENDPOINT: "http://ollama.meza.gg:11434"
