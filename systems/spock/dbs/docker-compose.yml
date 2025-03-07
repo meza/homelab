@@ -115,12 +115,15 @@ services:
       - traefik.http.routers.s3.tls=true
       - traefik.http.routers.s3.entrypoints=web,websecure
       - traefik.http.routers.s3.tls.certresolver=myresolver
+      - traefik.http.routers.s3.service=s3
       - traefik.http.services.s3.loadbalancer.server.port=9000
       - traefik.http.routers.minio.rule=Host(`minio.meza.gg`)
       - traefik.http.routers.minio.tls=true
       - traefik.http.routers.minio.entrypoints=web,websecure
       - traefik.http.routers.minio.tls.certresolver=myresolver
+      - traefik.http.routers.minio.service=minio
       - traefik.http.services.minio.loadbalancer.server.port=9001
+
       - com.centurylinklabs.watchtower=true
       - com.centurylinklabs.watchtower.enable=true
     expose:
