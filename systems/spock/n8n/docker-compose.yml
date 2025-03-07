@@ -6,8 +6,39 @@ networks:
 volumes:
   n8n_data:
     external: true
+  webui_data:
+    external: true
 
 services:
+  webui:
+    container_name: webui
+    restart: unless-stopped
+    image: ghcr.io/open-webui/open-webui:main
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.webui.rule=Host(`ai.meza.gg`)
+      - traefik.http.routers.webui.tls=true
+      - traefik.http.routers.webui.entrypoints=web,websecure
+      - traefik.http.routers.webui.tls.certresolver=myresolver
+      - traefik.http.middlewares.webui.headers.SSLRedirect=true
+      - traefik.http.middlewares.webui.headers.STSSeconds=315360000
+      - traefik.http.middlewares.webui.headers.browserXSSFilter=true
+      - traefik.http.middlewares.webui.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.webui.headers.forceSTSHeader=true
+      - traefik.http.middlewares.webui.headers.SSLHost=meza.gg
+      - traefik.http.middlewares.webui.headers.STSIncludeSubdomains=true
+      - traefik.http.middlewares.webui.headers.STSPreload=true
+      - traefik.http.routers.webui.middlewares=n8n@docker
+      - com.centurylinklabs.watchtower=true
+      - com.centurylinklabs.watchtower.enable=true
+    expose:
+      - 8080
+    volumes:
+      - webui_data:/app/backend/data
+    environment:
+      - OLLAMA_BASE_URL=http://ollama.meza.gg
+      - WEBUI_AUTH=False
+
   n8n:
     image: docker.n8n.io/n8nio/n8n
     restart: always
