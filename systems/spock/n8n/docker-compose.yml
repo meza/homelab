@@ -38,6 +38,8 @@ services:
     environment:
       - OLLAMA_BASE_URL=http://ollama.meza.gg
       - WEBUI_AUTH=False
+    networks:
+      - traefik-proxy
 
   n8n:
     image: docker.n8n.io/n8nio/n8n
