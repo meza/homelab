@@ -7,6 +7,9 @@ volumes:
   weaviate_data:
     external: true
     name: weaviate_data
+  minio_data:
+    external: true
+    name: minio_data
 
 networks:
   traefik-proxy:
@@ -65,7 +68,6 @@ services:
     networks:
       - traefik-proxy
 
-
   weaviate:
     labels:
       - traefik.enable=true
@@ -102,3 +104,29 @@ services:
       CLUSTER_HOSTNAME: "weaviate"
       RAFT_ENABLE_ONE_NODE_RECOVERY: true
 
+
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: minio
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.minio.rule=Host(`s3.meza.gg`)
+      - traefik.http.routers.minio.tls=true
+      - traefik.http.routers.minio.entrypoints=web,websecure
+      - traefik.http.routers.minio.tls.certresolver=myresolver
+      - com.centurylinklabs.watchtower=true
+      - com.centurylinklabs.watchtower.enable=true
+    expose:
+      - "9000"
+      - "9001"
+    networks:
+      - traefik-proxy
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: [ "CMD", "mc", "ready", "local" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
