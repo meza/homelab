@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1@sha256:93bfd3b68c109427185cd78b4779fc82b484b0b7618e36d0f104d4d801e66d25
+# syntax=docker/dockerfile:1@sha256:4c68376a702446fc3c79af22de146a148bc3367e73c25a5803d453b6b3f722fb
 FROM lscr.io/linuxserver/radarr:latest@sha256:0a8020afc5e3dcad1413ba125a980729a2b16ff0d88d108b3e1779111ef1c896 as radarr
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
@@ -9,7 +9,7 @@ COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
-FROM linuxserver/sabnzbd:latest@sha256:d5f659a45ba38b109b92bec00c080c192813b74a3bf66ed55dec51d8d95997cc as sabnzbd
+FROM linuxserver/sabnzbd:latest@sha256:c74f6a81b2730f9a16742ce8cb18553324473f6bb31d2a5258a25f0e00c2f217 as sabnzbd
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
@@ -19,7 +19,7 @@ COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
 
-FROM gitea/gitea:latest@sha256:9c1c20d31c3e65952f158af5a3c6424980f4c0e97a811ca7f68b715565b7bf1a as gitea
+FROM gitea/gitea:latest@sha256:5e55d8fd0622cf70425e4bb874f07f1b340fb53782901a2cc66da1a8b0f1de23 as gitea
 COPY certs /usr/share/ca-certificates
 LABEL com.centurylinklabs.watchtower.enable="true"
 RUN update-ca-certificates
