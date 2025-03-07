@@ -85,6 +85,8 @@ services:
     image: cr.weaviate.io/semitechnologies/weaviate:latest
     expose:
       - 8080
+      - 50051
+      - 8300
     networks:
       - traefik-proxy
     volumes:
@@ -97,5 +99,6 @@ services:
       ENABLE_API_BASED_MODULES: 'true'
       ENABLE_MODULES: 'text2vec-ollama'
       TEXT2VEC_OLLAMA_ENDPOINT: "http://ollama.meza.gg:11434"
-      CLUSTER_HOSTNAME: "standalone"
+      CLUSTER_HOSTNAME: "weaviate"
+      RAFT_ENABLE_ONE_NODE_RECOVERY: true
 
